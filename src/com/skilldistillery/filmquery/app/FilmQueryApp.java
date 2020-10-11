@@ -1,5 +1,8 @@
 package com.skilldistillery.filmquery.app;
 
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import com.skilldistillery.filmquery.database.DatabaseAccessor;
@@ -7,30 +10,78 @@ import com.skilldistillery.filmquery.database.DatabaseAccessorObject;
 import com.skilldistillery.filmquery.entities.Film;
 
 public class FilmQueryApp {
-  
-  DatabaseAccessor db = new DatabaseAccessorObject();
 
-  public static void main(String[] args) {
-    FilmQueryApp app = new FilmQueryApp();
-    app.test();
-    app.launch();
-  }
+	DatabaseAccessor db = new DatabaseAccessorObject();
 
-  private void test() {
-    Film film = db.findFilmById(19);
-    System.out.println(film);
-  }
+	public static void main(String[] args) {
+		FilmQueryApp app = new FilmQueryApp();
+//    app.test();
+		app.launch();
+	}
 
-  private void launch() {
-    Scanner input = new Scanner(System.in);
-    
-    startUserInterface(input);
-    
-    input.close();
-  }
+//  private void test() {
+//    Film film = db.findFilmById(1234);
+//    System.out.println(film);
+//  }
 
-  private void startUserInterface(Scanner input) {
-    
-  }
+	private void launch() {
+		Scanner input = new Scanner(System.in);
+
+		startUserInterface(input);
+
+		input.close();
+	}
+
+	private void startUserInterface(Scanner input) {
+		List<Film> films = new ArrayList<>();
+		boolean keepGoing = true;
+		Film film;
+
+		System.out.println("Welcome to the Crudflix film database, where all of our movies make");
+		System.out.println("The Wayans Brothers film \"White Chicks\" look like a cinematic masterpiece");
+		System.out.println(
+				"Browse through our worst variety of low budget films that you never knew you wanted to watch");
+		System.out.println();
+		while (keepGoing) {
+			System.out.println("-----------------Main Menu-----------------");
+			System.out.println();
+			System.out.println("----Select which number you would like-----");
+			System.out.println("1. Look up a film by film id number");
+			System.out.println("2. Search a film by keyword");
+			System.out.println("3. Exit");
+			int choice;
+
+			try {
+				choice = input.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("Invalid input. Please enter a valid option");
+				break;
+			}
+			switch (choice) {
+			case 1:
+				System.out.println("Enter film ID number: ");
+				film = db.findFilmById(input.nextInt());
+				if (film == null) {
+					System.out.println("Unable to find a film with that ID number");
+
+				} else {
+					System.out.println(film.displayFilm());
+					System.out.println();
+					System.out.println();
+				}
+				break;
+				
+			case 2:
+				System.out.println("Enter keyword to search");
+				System.out.println("Undergoing Maintenance");
+				break;
+			case 3:
+				System.out.println("Bye");
+				keepGoing = false;
+				break;
+
+			}
+		}
+	}
 
 }

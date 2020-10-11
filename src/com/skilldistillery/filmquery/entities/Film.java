@@ -144,6 +144,19 @@ public class Film {
 	public void setActors(List<Actor> actors) {
 		this.actors = actors;
 	}
+	
+	// If the film is found, its title, year, rating, and description are displayed.
+	public String displayFilm() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(title);
+		builder.append(", ");
+		builder.append(releaseYear);
+		builder.append(", ");
+		builder.append(rating);
+		builder.append("\n");
+		builder.append(description);
+		return builder.toString();
+	}
 
 	@Override
 	public String toString() {
