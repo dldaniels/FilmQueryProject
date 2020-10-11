@@ -39,39 +39,26 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			ResultSet rs = pst.executeQuery();
 			// process data
 			if (rs.next()) {
-				 film = new Film();
-				 film.setId(rs.getInt("id"));
-				 film.setTitle(rs.getString("title"));
-				 film.setDescription(rs.getString("description"));
-				 film.setReleaseYear(rs.getInt("release_year"));
-				 film.setLanguageId(rs.getInt("language_id"));
-				 film.setRentalDuration(rs.getInt("rental_duration"));
-				 film.setRentalRate(rs.getDouble("rental_rate"));
-				 film.setLength(rs.getInt("length"));
-				 film.setReplacementCost(rs.getDouble("replacement_cost"));
-				 film.setRating(rs.getString("rating"));
-				 film.setSpecialFeatures(rs.getString("special_features"));
-		//		 film.setCategoryId(rs.getInt("category));
-				 film.setActors(findActorsByFilmId(filmId));
-				 
-				 
-//				 rentalDuration = rentalDuration;
-//					this.rentalRate = rentalRate;
-//					this.length = length;
-//					this.replacementCost = replacementCost;
-//					this.rating = rating;
-//					this.specialFeatures = specialFeatures;
-//					this.categoryId = categoryId;
-//					this.actors = actors;
-				
-				
+				film = new Film();
+				film.setId(rs.getInt("id"));
+				film.setTitle(rs.getString("title"));
+				film.setDescription(rs.getString("description"));
+				film.setReleaseYear(rs.getInt("release_year"));
+				film.setLanguageId(rs.getInt("language_id"));
+				film.setRentalDuration(rs.getInt("rental_duration"));
+				film.setRentalRate(rs.getDouble("rental_rate"));
+				film.setLength(rs.getInt("length"));
+				film.setReplacementCost(rs.getDouble("replacement_cost"));
+				film.setRating(rs.getString("rating"));
+				film.setSpecialFeatures(rs.getString("special_features"));
+				// film.setCategoryId(rs.getInt("category));
+				film.setActors(findActorsByFilmId(filmId));
 
 			}
-			
+
 			rs.close();
 			pst.close();
 			conn.close();
-			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -82,8 +69,33 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 	@Override
 	public Actor findActorById(int actorId) {
-		// TODO Auto-generated method stub
-		return null;
+		Actor actor = null;
+		try {
+			// establish connection to DB
+			Connection conn = DriverManager.getConnection(URL, user, password);
+			// sql query
+			String sql = "SELECT * FROM actor WHERE id = ?";
+			// prepared statement
+			PreparedStatement pst = conn.prepareStatement(sql);
+			// execute query
+			pst.setInt(1, actorId);
+			ResultSet rs = pst.executeQuery();
+			// process data
+			if (rs.next()) {
+				actor = new Actor();
+				actor.setId(rs.getInt("id"));
+				actor.setFirstName(rs.getString("first_name"));
+				actor.setLastName(rs.getString("last_name"));
+
+			}
+
+			rs.close();
+			pst.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return actor;
 	}
 
 	@Override
