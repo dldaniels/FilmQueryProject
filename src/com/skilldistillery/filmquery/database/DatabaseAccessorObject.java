@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.skilldistillery.filmquery.entities.Actor;
@@ -25,6 +26,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 	@Override
 	public Film findFilmById(int filmId) {
+		Film film = null;
 		try {
 			// establish connection to DB
 			Connection conn = DriverManager.getConnection(URL, user, password);
@@ -37,13 +39,45 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			ResultSet rs = pst.executeQuery();
 			// process data
 			if (rs.next()) {
+				 film = new Film();
+				 film.setId(rs.getInt("id"));
+				 film.setTitle(rs.getString("title"));
+				 film.setDescription(rs.getString("description"));
+				 film.setReleaseYear(rs.getInt("release_year"));
+				 film.setLanguageId(rs.getInt("language_id"));
+				 film.setRentalDuration(rs.getInt("rental_duration"));
+				 film.setRentalRate(rs.getDouble("rental_rate"));
+				 film.setLength(rs.getInt("length"));
+				 film.setReplacementCost(rs.getDouble("replacement_cost"));
+				 film.setRating(rs.getString("rating"));
+				 film.setSpecialFeatures(rs.getString("special_features"));
+		//		 film.setCategoryId(rs.getInt("category));
+				 film.setActors(findActorsByFilmId(filmId));
+				 
+				 
+//				 rentalDuration = rentalDuration;
+//					this.rentalRate = rentalRate;
+//					this.length = length;
+//					this.replacementCost = replacementCost;
+//					this.rating = rating;
+//					this.specialFeatures = specialFeatures;
+//					this.categoryId = categoryId;
+//					this.actors = actors;
+				
+				
 
 			}
+			
+			rs.close();
+			pst.close();
+			conn.close();
+			
 
-		} catch (Exception e) {
+		} catch (SQLException e) {
+			e.printStackTrace();
 
 		}
-		return null;
+		return film;
 	}
 
 	@Override

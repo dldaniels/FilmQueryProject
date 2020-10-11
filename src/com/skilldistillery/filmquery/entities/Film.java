@@ -3,27 +3,27 @@ package com.skilldistillery.filmquery.entities;
 import java.util.List;
 
 public class Film {
-	
+
 	private int id;
 	private String title;
 	private String description;
 	private int releaseYear;
 	private int languageId;
 	private int rentalDuration;
-	private int rentalRate;
+	private double rentalRate;
 	private int length;
 	private double replacementCost;
 	private String rating;
 	private String specialFeatures;
-	private int categoryId;
-	private List <Actor> actors;
-	
+//	private int categoryId;
+	private List<Actor> actors;
+
 	public Film() {
 		super();
 	}
 
 	public Film(int id, String title, String description, int releaseYear, int languageId, int rentalDuration,
-			int rentalRate, int length, double replacementCost, String rating, String specialFeatures, int categoryId,
+			double rentalRate, int length, double replacementCost, String rating, String specialFeatures, //int categoryId,
 			List<Actor> actors) {
 		super();
 		this.id = id;
@@ -37,7 +37,7 @@ public class Film {
 		this.replacementCost = replacementCost;
 		this.rating = rating;
 		this.specialFeatures = specialFeatures;
-		this.categoryId = categoryId;
+//		this.categoryId = categoryId;
 		this.actors = actors;
 	}
 
@@ -89,11 +89,11 @@ public class Film {
 		this.rentalDuration = rentalDuration;
 	}
 
-	public int getRentalRate() {
+	public double getRentalRate() {
 		return rentalRate;
 	}
 
-	public void setRentalRate(int rentalRate) {
+	public void setRentalRate(double rentalRate) {
 		this.rentalRate = rentalRate;
 	}
 
@@ -129,13 +129,13 @@ public class Film {
 		this.specialFeatures = specialFeatures;
 	}
 
-	public int getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
-	}
+//	public int getCategoryId() {
+//		return categoryId;
+//	}
+//
+//	public void setCategoryId(int categoryId) {
+//		this.categoryId = categoryId;
+//	}
 
 	public List<Actor> getActors() {
 		return actors;
@@ -171,7 +171,7 @@ public class Film {
 		builder.append(", specialFeatures=");
 		builder.append(specialFeatures);
 		builder.append(", categoryId=");
-		builder.append(categoryId);
+//		builder.append(categoryId);
 		builder.append(", actors=");
 		builder.append(actors);
 		builder.append("]");
@@ -183,7 +183,7 @@ public class Film {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((actors == null) ? 0 : actors.hashCode());
-		result = prime * result + categoryId;
+	//	result = prime * result + categoryId;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + id;
 		result = prime * result + languageId;
@@ -191,8 +191,9 @@ public class Film {
 		result = prime * result + ((rating == null) ? 0 : rating.hashCode());
 		result = prime * result + releaseYear;
 		result = prime * result + rentalDuration;
-		result = prime * result + rentalRate;
 		long temp;
+		temp = Double.doubleToLongBits(rentalRate);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(replacementCost);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((specialFeatures == null) ? 0 : specialFeatures.hashCode());
@@ -212,8 +213,8 @@ public class Film {
 				return false;
 		} else if (!actors.equals(other.actors))
 			return false;
-		if (categoryId != other.categoryId)
-			return false;
+//		if (categoryId != other.categoryId)
+//			return false;
 		if (description == null) {
 			if (other.description != null)
 				return false;
@@ -234,7 +235,7 @@ public class Film {
 			return false;
 		if (rentalDuration != other.rentalDuration)
 			return false;
-		if (rentalRate != other.rentalRate)
+		if (Double.doubleToLongBits(rentalRate) != Double.doubleToLongBits(other.rentalRate))
 			return false;
 		if (Double.doubleToLongBits(replacementCost) != Double.doubleToLongBits(other.replacementCost))
 			return false;
@@ -251,9 +252,7 @@ public class Film {
 		return true;
 	}
 	
-	
-	
-	
-	
-	
+
+
+
 }
