@@ -73,7 +73,18 @@ public class FilmQueryApp {
 				
 			case 2:
 				System.out.println("Enter keyword to search");
-				System.out.println("Undergoing Maintenance");
+				films = db.findFilmByKeyword(input.next());
+				if (films.isEmpty()) {
+					System.out.println("Unable to find a matching film");
+					
+				}else {
+					System.out.println("Here are the films we have found that may be relevant to your search.");
+					System.out.println();
+					for (Film matchingFilms : films) {
+						System.out.println(matchingFilms.displayFilm());
+						System.out.println();
+					}
+				}
 				break;
 			case 3:
 				System.out.println("Bye");

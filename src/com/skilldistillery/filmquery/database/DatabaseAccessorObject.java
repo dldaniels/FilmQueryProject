@@ -135,4 +135,80 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		return actors;
 	}
 
+	@Override
+	public List<Film> findFilmByKeyword(String keyWord) {
+		Film film = null;
+		List<Film> films = new ArrayList<>();
+
+		try {
+			// establish connection to DB
+			Connection conn = DriverManager.getConnection(URL, user, password);
+			// sql query
+			String sql = "SELECT * FROM film WHERE title LIKE ? OR description LIKE ?";
+			// prepared statement
+			PreparedStatement pst = conn.prepareStatement(sql);
+			// execute query
+			pst.setString(1, "%" + keyWord + "%");
+			pst.setString(2, "%" + keyWord + "%");
+			ResultSet rs = pst.executeQuery();
+			// process data
+
+			while (rs.next()) {
+				film = new Film();
+				film.setId(rs.getInt("id"));
+				film.setTitle(rs.getString("title"));
+				film.setDescription(rs.getString("description"));
+				film.setReleaseYear(rs.getInt("release_year"));
+				film.setLanguageId(rs.getInt("language_id"));
+				film.setRentalDuration(rs.getInt("rental_duration"));
+				film.setRentalRate(rs.getDouble("rental_rate"));
+				film.setLength(rs.getInt("length"));
+				film.setReplacementCost(rs.getDouble("replacement_cost"));
+				film.setRating(rs.getString("rating"));
+				film.setSpecialFeatures(rs.getString("special_features"));
+				// film.setCategoryId(rs.getInt("category));
+				film.setActors(findActorsByFilmId(film.getId()));
+				films.add(film);
+
+			}
+			rs.close();
+			pst.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return films;
+	}
+
+	@Override
+	public String findLanguage(int languageId) {
+		StringBuilder builder = new StringBuilder();
+		
+		try {
+			// establish connection to DB
+			Connection conn = DriverManager.getConnection(URL, user, password);
+			// sql query
+			String sql = "SELECT name FROM language WHERE language.id = ?";
+			// prepared statement
+			PreparedStatement pst = conn.prepareStatement(sql);
+			// execute query
+			pst.setInt(1, languageId);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				builder.append(rs.getString("name"));
+				
+			}
+			
+			rs.close();
+			pst.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return builder.toString();
+	}
+
 }

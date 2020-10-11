@@ -2,7 +2,13 @@ package com.skilldistillery.filmquery.entities;
 
 import java.util.List;
 
+import com.skilldistillery.filmquery.database.DatabaseAccessor;
+import com.skilldistillery.filmquery.database.DatabaseAccessorObject;
+
+
 public class Film {
+	
+	DatabaseAccessor db = new DatabaseAccessorObject();
 
 	private int id;
 	private String title;
@@ -153,6 +159,8 @@ public class Film {
 		builder.append(releaseYear);
 		builder.append(", ");
 		builder.append(rating);
+		builder.append(", ");
+		builder.append(db.findLanguage(getLanguageId()));
 		builder.append("\n");
 		builder.append(description);
 		return builder.toString();
