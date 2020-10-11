@@ -13,7 +13,7 @@ public class FilmQueryApp {
   public static void main(String[] args) {
     FilmQueryApp app = new FilmQueryApp();
     app.test();
-//    app.launch();
+    app.launch();
   }
 
   private void test() {
