@@ -10,12 +10,15 @@ import com.skilldistillery.filmquery.database.DatabaseAccessorObject;
 import com.skilldistillery.filmquery.entities.Film;
 
 public class FilmQueryApp {
-
+	// instance of database accesor object
 	DatabaseAccessor db = new DatabaseAccessorObject();
 
+	// main method
 	public static void main(String[] args) {
+		// instance of film query app
 		FilmQueryApp app = new FilmQueryApp();
 //    app.test();
+		// call to app launch
 		app.launch();
 	}
 
@@ -23,7 +26,7 @@ public class FilmQueryApp {
 //    Film film = db.findFilmById(1234);
 //    System.out.println(film);
 //  }
-
+	// method to laucnh application
 	private void launch() {
 		Scanner input = new Scanner(System.in);
 
@@ -32,6 +35,7 @@ public class FilmQueryApp {
 		input.close();
 	}
 
+	// method to begin user interface
 	private void startUserInterface(Scanner input) {
 		List<Film> films = new ArrayList<>();
 		boolean keepGoing = true;
@@ -50,7 +54,7 @@ public class FilmQueryApp {
 			System.out.println("2. Search a film by keyword");
 			System.out.println("3. Exit");
 			int choice;
-
+			// invalid input exception is handled in try/catch
 			try {
 				choice = input.nextInt();
 			} catch (InputMismatchException e) {
@@ -67,17 +71,18 @@ public class FilmQueryApp {
 				} else {
 					System.out.println(film.displayFilm());
 					System.out.println();
+
 					System.out.println();
 				}
 				break;
-				
+
 			case 2:
 				System.out.println("Enter keyword to search");
 				films = db.findFilmByKeyword(input.next());
 				if (films.isEmpty()) {
 					System.out.println("Unable to find a matching film");
-					
-				}else {
+
+				} else {
 					System.out.println("Here are the films we have found that may be relevant to your search.");
 					System.out.println();
 					for (Film matchingFilms : films) {
@@ -94,5 +99,23 @@ public class FilmQueryApp {
 			}
 		}
 	}
+//	private void subMenu(Scanner input) {
+//		
+//		System.out.println("Select 1 to view all details of film");
+//		System.out.println("Select 2 to return to main menu");
+//		int choice;
+//		
+//		try {
+//			choice = input.nextInt();
+//		} catch (InputMismatchException e) {
+//			System.out.println("Invalid input. Please enter a valid option");
+//			
+//		}
+//		switch(choice) {
+//		case 1: 
+//			db.
+//			
+//		}
+//	}
 
 }

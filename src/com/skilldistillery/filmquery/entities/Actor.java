@@ -3,16 +3,18 @@ package com.skilldistillery.filmquery.entities;
 import java.util.List;
 
 public class Actor {
-
+//actor fields
 	private int id;
 	private String firstName;
 	private String lastName;
 	private List<Film> films;
 
+//actor no arg constructor
 	public Actor() {
 		super();
 	}
 
+//actor constructor with actor fields
 	public Actor(int id, String firstName, String lastName) {
 		super();
 		this.id = id;
@@ -20,6 +22,7 @@ public class Actor {
 		this.lastName = lastName;
 	}
 
+//actor constructor with actor fields and list of films
 	public Actor(int id, String firstName, String lastName, List<Film> films) {
 		super();
 		this.id = id;
@@ -28,6 +31,7 @@ public class Actor {
 		this.films = films;
 	}
 
+//getters and setters
 	public int getId() {
 		return id;
 	}
@@ -63,17 +67,13 @@ public class Actor {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Actor [id=");
-		builder.append(id);
-		builder.append(", firstName=");
 		builder.append(firstName);
-		builder.append(", lastName=");
+		builder.append(" ");
 		builder.append(lastName);
-		builder.append(", films=");
-		builder.append(films);
-		builder.append("]");
+	
 		return builder.toString();
 	}
+
 
 	@Override
 	public int hashCode() {

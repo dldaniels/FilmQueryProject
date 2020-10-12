@@ -5,32 +5,32 @@ import java.util.List;
 import com.skilldistillery.filmquery.database.DatabaseAccessor;
 import com.skilldistillery.filmquery.database.DatabaseAccessorObject;
 
-
 public class Film {
-	
+//instance of DataBaseAccessorObject
 	DatabaseAccessor db = new DatabaseAccessorObject();
-
+//Film fields
 	private int id;
 	private String title;
 	private String description;
-	private int releaseYear;
+	private Integer releaseYear;
 	private int languageId;
 	private int rentalDuration;
 	private double rentalRate;
-	private int length;
+	private Integer length;
 	private double replacementCost;
 	private String rating;
 	private String specialFeatures;
-//	private int categoryId;
 	private List<Actor> actors;
 
+//no arg film constructor
 	public Film() {
 		super();
 	}
 
-	public Film(int id, String title, String description, int releaseYear, int languageId, int rentalDuration,
-			double rentalRate, int length, double replacementCost, String rating, String specialFeatures, //int categoryId,
-			List<Actor> actors) {
+//film constructor
+	public Film(int id, String title, String description, Integer releaseYear, int languageId, int rentalDuration,
+			double rentalRate, Integer length, double replacementCost, String rating, String specialFeatures,
+			int categoryId, List<Actor> actors) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -43,10 +43,10 @@ public class Film {
 		this.replacementCost = replacementCost;
 		this.rating = rating;
 		this.specialFeatures = specialFeatures;
-//		this.categoryId = categoryId;
 		this.actors = actors;
 	}
 
+//getters and setters
 	public int getId() {
 		return id;
 	}
@@ -71,11 +71,11 @@ public class Film {
 		this.description = description;
 	}
 
-	public int getReleaseYear() {
+	public Integer getReleaseYear() {
 		return releaseYear;
 	}
 
-	public void setReleaseYear(int releaseYear) {
+	public void setReleaseYear(Integer releaseYear) {
 		this.releaseYear = releaseYear;
 	}
 
@@ -103,11 +103,11 @@ public class Film {
 		this.rentalRate = rentalRate;
 	}
 
-	public int getLength() {
+	public Integer getLength() {
 		return length;
 	}
 
-	public void setLength(int length) {
+	public void setLength(Integer length) {
 		this.length = length;
 	}
 
@@ -135,14 +135,6 @@ public class Film {
 		this.specialFeatures = specialFeatures;
 	}
 
-//	public int getCategoryId() {
-//		return categoryId;
-//	}
-//
-//	public void setCategoryId(int categoryId) {
-//		this.categoryId = categoryId;
-//	}
-
 	public List<Actor> getActors() {
 		return actors;
 	}
@@ -150,8 +142,9 @@ public class Film {
 	public void setActors(List<Actor> actors) {
 		this.actors = actors;
 	}
-	
-	// If the film is found, its title, year, rating, and description are displayed.
+
+	// Method to display film. User story 2/3. If the film is found, its title,
+	// year, rating, and description are displayed.
 	public String displayFilm() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(title);
@@ -162,8 +155,26 @@ public class Film {
 		builder.append(", ");
 		builder.append(db.findLanguage(getLanguageId()));
 		builder.append("\n");
+		builder.append(displayCast());
+		builder.append("\n");
 		builder.append(description);
 		return builder.toString();
+	}
+
+// Method to display film cast. User story 5. A list of actors in the cast is displayed along with film
+	public String displayCast() {
+		StringBuilder builder = new StringBuilder();
+		db.findActorsByFilmId(getId());
+		builder.append("Cast: ");
+		for (int i = 0; i < actors.size(); i++) {
+			builder.append(actors.get(i));
+			if (i < actors.size() - 1) {
+				builder.append(", ");
+			}
+
+		}
+		return builder.toString();
+
 	}
 
 	@Override
@@ -191,8 +202,6 @@ public class Film {
 		builder.append(rating);
 		builder.append(", specialFeatures=");
 		builder.append(specialFeatures);
-		builder.append(", categoryId=");
-//		builder.append(categoryId);
 		builder.append(", actors=");
 		builder.append(actors);
 		builder.append("]");
@@ -204,13 +213,12 @@ public class Film {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((actors == null) ? 0 : actors.hashCode());
-	//	result = prime * result + categoryId;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + id;
 		result = prime * result + languageId;
-		result = prime * result + length;
+		result = prime * result + ((length == null) ? 0 : length.hashCode());
 		result = prime * result + ((rating == null) ? 0 : rating.hashCode());
-		result = prime * result + releaseYear;
+		result = prime * result + ((releaseYear == null) ? 0 : releaseYear.hashCode());
 		result = prime * result + rentalDuration;
 		long temp;
 		temp = Double.doubleToLongBits(rentalRate);
@@ -234,8 +242,6 @@ public class Film {
 				return false;
 		} else if (!actors.equals(other.actors))
 			return false;
-//		if (categoryId != other.categoryId)
-//			return false;
 		if (description == null) {
 			if (other.description != null)
 				return false;
@@ -245,14 +251,20 @@ public class Film {
 			return false;
 		if (languageId != other.languageId)
 			return false;
-		if (length != other.length)
+		if (length == null) {
+			if (other.length != null)
+				return false;
+		} else if (!length.equals(other.length))
 			return false;
 		if (rating == null) {
 			if (other.rating != null)
 				return false;
 		} else if (!rating.equals(other.rating))
 			return false;
-		if (releaseYear != other.releaseYear)
+		if (releaseYear == null) {
+			if (other.releaseYear != null)
+				return false;
+		} else if (!releaseYear.equals(other.releaseYear))
 			return false;
 		if (rentalDuration != other.rentalDuration)
 			return false;
@@ -272,8 +284,5 @@ public class Film {
 			return false;
 		return true;
 	}
-	
-
-
 
 }

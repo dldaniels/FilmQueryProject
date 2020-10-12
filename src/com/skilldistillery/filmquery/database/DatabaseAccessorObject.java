@@ -12,7 +12,7 @@ import com.skilldistillery.filmquery.entities.Actor;
 import com.skilldistillery.filmquery.entities.Film;
 
 public class DatabaseAccessorObject implements DatabaseAccessor {
-
+//Database connection fields
 	private static final String URL = "jdbc:mysql://localhost:3306/sdvid?useSSL=false";
 	private static final String user = "student";
 	private static final String password = "student";
@@ -25,6 +25,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		}
 	}
 
+//method to find film by film id number
 	@Override
 	public Film findFilmById(int filmId) {
 		Film film = null;
@@ -52,7 +53,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film.setReplacementCost(rs.getDouble("replacement_cost"));
 				film.setRating(rs.getString("rating"));
 				film.setSpecialFeatures(rs.getString("special_features"));
-				// film.setCategoryId(rs.getInt("category));
 				film.setActors(findActorsByFilmId(filmId));
 
 			}
@@ -65,9 +65,11 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			e.printStackTrace();
 
 		}
+		// return data object
 		return film;
 	}
 
+//method to find actor by actor id
 	@Override
 	public Actor findActorById(int actorId) {
 		Actor actor = null;
@@ -96,9 +98,11 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		// return data object
 		return actor;
 	}
 
+//method to find actor by film id. Used to create cast list.
 	@Override
 	public List<Actor> findActorsByFilmId(int filmId) {
 		List<Actor> actors = new ArrayList<>();
@@ -131,10 +135,11 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		// return data object
 		return actors;
 	}
 
+	// method to find film by key word search
 	@Override
 	public List<Film> findFilmByKeyword(String keyWord) {
 		Film film = null;
@@ -166,7 +171,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film.setReplacementCost(rs.getDouble("replacement_cost"));
 				film.setRating(rs.getString("rating"));
 				film.setSpecialFeatures(rs.getString("special_features"));
-				// film.setCategoryId(rs.getInt("category));
 				film.setActors(findActorsByFilmId(film.getId()));
 				films.add(film);
 
@@ -178,13 +182,15 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		// return data object
 		return films;
 	}
 
+	// method to find language from language id
 	@Override
 	public String findLanguage(int languageId) {
 		StringBuilder builder = new StringBuilder();
-		
+
 		try {
 			// establish connection to DB
 			Connection conn = DriverManager.getConnection(URL, user, password);
@@ -197,17 +203,16 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				builder.append(rs.getString("name"));
-				
+
 			}
-			
+
 			rs.close();
 			pst.close();
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
+		// return data
 		return builder.toString();
 	}
 
