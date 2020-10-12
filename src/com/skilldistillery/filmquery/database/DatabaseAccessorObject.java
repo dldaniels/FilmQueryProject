@@ -25,7 +25,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		}
 	}
 
-//method to find film by film id number
+	// method to find film by film id number
 	@Override
 	public Film findFilmById(int filmId) {
 		Film film = null;
@@ -69,7 +69,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		return film;
 	}
 
-//method to find actor by actor id
+	// method to find actor by actor id
 	@Override
 	public Actor findActorById(int actorId) {
 		Actor actor = null;

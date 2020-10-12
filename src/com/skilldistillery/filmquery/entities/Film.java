@@ -180,31 +180,34 @@ public class Film {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Film [id=");
+		builder.append("Film ID: ");
 		builder.append(id);
-		builder.append(", title=");
+		builder.append(", ");
 		builder.append(title);
-		builder.append(", description=");
-		builder.append(description);
-		builder.append(", releaseYear=");
+		builder.append(", ");
 		builder.append(releaseYear);
-		builder.append(", languageId=");
-		builder.append(languageId);
-		builder.append(", rentalDuration=");
-		builder.append(rentalDuration);
-		builder.append(", rentalRate=");
-		builder.append(rentalRate);
-		builder.append(", length=");
-		builder.append(length);
-		builder.append(", replacementCost=");
-		builder.append(replacementCost);
-		builder.append(", rating=");
+		builder.append(", ");
 		builder.append(rating);
-		builder.append(", specialFeatures=");
+		builder.append(", ");
+		builder.append(db.findLanguage(getLanguageId()));
+		builder.append(", Language ID: ");
+		builder.append(languageId);
+		builder.append(", Length: ");
+		builder.append(length);
+		builder.append("\n");
+		builder.append(description);
+		builder.append("\n");
+		builder.append(displayCast());
+		builder.append("\n");
+		builder.append("SpecialFeatures: ");
 		builder.append(specialFeatures);
-		builder.append(", actors=");
-		builder.append(actors);
-		builder.append("]");
+		builder.append("\n");
+		builder.append("RentalRate: ");
+		builder.append(rentalRate);
+		builder.append(", RentalDuration: ");
+		builder.append(rentalDuration);
+		builder.append(", ReplacementCost: ");
+		builder.append(replacementCost);
 		return builder.toString();
 	}
 
